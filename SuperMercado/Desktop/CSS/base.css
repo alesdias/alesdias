@@ -1,0 +1,21 @@
+body {
+    background-color: #b0c4de;
+}
+
+.conteudo {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    background-color: azure;
+    font-family: tahoma;
+    position:absolute;
+}
+
+.menu {
+    WIDTH: 150px;
+    height: 450px;
+    background-color:chocolate;
+    font-family: tahoma;
+    position: relative:menu;
+}
