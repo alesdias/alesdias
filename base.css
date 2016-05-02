@@ -1,0 +1,34 @@
+body {
+    background-color: #b0c4de;
+}
+
+td{
+	padding-top: 10;
+}
+
+.conteudo {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    background-color: azure;
+    font-family: tahoma;
+    position:absolute;
+}
+
+.menu {
+    WIDTH: 150px;
+    height: 450px;
+    background-color:chocolate;
+    font-family: tahoma;
+    position: relative:menu;
+}
+
+.table_principal {
+	border-collapse: collapse;
+	border-spacing: 10px;
+	font-family: tahoma;
+	border: 1px;	
+	border-color: blue;
+	background-color: white;
+}
