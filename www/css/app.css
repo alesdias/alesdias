@@ -1,0 +1,42 @@
+body{
+    padding: 0pt;
+
+}
+
+.login{
+    width: 90%;
+    padding: 10px;
+    align-items: center;
+}
+
+.conteudo{
+    padding-left:   10px;
+    padding-right:  10px;
+    padding-top:    10px;
+}
+
+.titulo{
+    width: 90%;
+    padding-left: 0px;
+    
+}
+
+.esp-normal{
+    width: 90%;
+    padding: 10px;
+    align-items: center;
+}
+
+.menu{
+    position: fixed;
+    /*z-index: 10;*/
+
+}
+
+.esconde{
+    display: none;
+}
+
+.mostra{
+    display: show;
+}

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="appreco">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>APPreço</title>
+	<!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>-->
+	<link href="iconfont/material-icons.css" rel="stylesheet"/>
+	<link type="text/css" rel="stylesheet" href="css/app.css" />
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>	
+	<script type="text/javascript" src="js/lib/jquery-3.0.0.min.js"></script>
+	<script type="text/javascript" src="js/lib/materialize.min.js"></script>
+	<script type="text/javascript" src="js/lib/angular.min.js"></script>
+	<script type="text/javascript" src="js/lib/angular-cookies.min.js"></script>
+	<script type="text/javascript" src="js/lib/angular-resource.min.js"></script>
+	<script type="text/javascript" src="js/lib/angular-route.min.js"></script>
+	<script type="text/javascript" src="js/lib/angular-animate.min.js"></script>
+	
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="js/database.js"></script>
+	<script type="text/javascript" src="js/app.js"></script> 
+	<script type="text/javascript" src="js/controller.js"></script>
+	
+
+</head>
+<body ng-controller="pesquisaCntr" ng-init="inicio()">
+
+
+	<nav id="MenuPrincipal"> 
+		<div class="nav-wrapper #0d47a1 blue darken-4 menu">
+			<a href="#!" class="brand-logo" style="padding-left:10px;">.:: APPreço ::.</a>
+			<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="#!" onclick="mostrarConteudo('conteudo-home');">Inicio</a></li>
+				<li><a href="#!" onclick="mostrarConteudo('conteudo-lojas');">Lojas</a></li>
+				<li><a href="#!" onclick="mostrarConteudo('conteudo-produtos');">Produtos</a></li>
+				<li><a href="#!" onclick="mostrarConteudo('conteudo-pesquisas');">Pesquisas</a></li>
+				<li><a href="#!" onclick="mostrarConteudo('conteudo-config');">Configurações</a></li>
+			</ul>
+			<ul class="side-nav #1976d2 blue darken-2" id="mobile-demo">
+				<div class="row #1e88e5 blue darken-1">
+					Usuario : XXXX
+				</div>
+				<li><a class="white-text" href="#!" onclick="mostrarConteudo('conteudo-home');"><i class="material-icons left">home</i>Inicio</a></li>
+				<li><a class="white-text" href="#!" onclick="mostrarConteudo('conteudo-lojas');"><i class="material-icons left">redeem</i>Lojas</a></li>
+				<li><a class="white-text" href="#!" onclick="mostrarConteudo('conteudo-produtos');"><i class="material-icons left">redeem</i>Produtos</a></li>
+				<li><a class="white-text" href="#!" onclick="mostrarConteudo('conteudo-pesquisas');"><i class="material-icons left">redeem</i>Pesquisas</a></li>
+				<li><a class="white-text" href="#!" onclick="mostrarConteudo('conteudo-config');"><i class="material-icons left">settings</i>Configurações</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<div id="conteudo-lojas" class="conteudo esconde"> 
+		<h5>LOJAS</h5><hr/>
+
+		<div class="row">
+		<form class="col s12">
+			<div class="row">
+				<div class="input-field col s7">
+					<input id="loja_nome" type="text" class="validate">
+					<label for="loja_nome">Nome da Loja</label>
+				</div>
+				<div class="input-field col s4">
+					<a href="#!" ng-click="addLoja();" class="btn">adicionar</a>
+				</div>
+			</div>
+		</form>
+		</div>
+
+			<table class="bordered" id="lojasHeader">
+			<thead>
+			<tr>
+				<th data-field="id">Nome</th>
+				<th data-field="id" style="width: 5%;"></th>
+			</tr>
+			</thead>
+			<tbody id="Lojas" ng-repeat="x in lojas">
+				<td>{{x.nome}}</td>
+				<td><a href='#!' ng-click="deletarloja(x.id);"><i class='material-icons'>delete</i></a></td>
+			</tbody>
+		</table>
+
+		<!-- INICIO - Modal DeletarLoja -->
+		<div id="LojaDel_Modal" class="modal">
+			<div class="modal-content">
+			<h4>Apagar Loja</h4>
+			Tem certeza que deseja apagar esta Loja da sua relação?'
+			</div>
+			<div class="modal-footer" id="acaoDeletarLoja">
+				<a href="#!" class="modal-action modal-close waves-effect btn-flat ">Não</a>
+				<a href="#!" ng-click="delLoja();" class="waves-effect btn blue">Sim</a>
+			</div>
+		</div>
+		<!-- FINAL - Modal DeletarLoja -->
+
+	</div>
+
+	<div id="conteudo-produtos" class="conteudo esconde"> 
+		<h5>PRODUTOS</h5><hr/>
+
+		<!-- tabela de produtos -->
+		<div class="row" id="listaProdutos">
+
+			<div class="row">
+				<div class="row col s6 left">
+					<a href="#!" onclick="mostraProdutos('novoProduto');" class="waves-effect waves-light btn blue">novo produto</a>
+				</div>
+
+				<!--
+				<div class="col s6 right">
+					<a onclick="delProdutos();" href="#!" class="waves-effect waves-light btn blue">deletar todos</a>
+				</div>
+				-->
+				
+			</div>
+			<table class="bordered" id="produtoHeader">
+				<thead>
+				<tr>
+					<th data-field="id">Nome</th>
+					<th data-field="price">Pesquisas</th>
+					<th data-field="id" style="width: 5%;"></th>
+				</tr>
+				</thead>
+				<tbody id="Produtos">
+
+				<tr ng-repeat="produto in produtos">
+					<td>{{produto.nome}}</td>
+					<td></td>
+					<td> <a href='#!' ng-click="deletarProduto(produto.id)"><i class='material-icons'>delete</i></a></td>
+				</tr>
+					
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Formulário de Inclusão -->
+		<div class="row esconde" id="novoProduto">
+			<form class="col s12">
+				<div class="row">
+					<div class="input-field row">
+						<a href="#!" ng-click="addProduto()"  class="waves-effect btn blue">Salvar</a>
+						<a href="#!" onclick="mostraProdutos('listaProdutos');" class="waves-effect btn-flat ">Cancelar</a>
+					</div>
+					<div class="input-field col s10">	
+						<input id="codigo_barras" value="." type="text" class="">
+						<label for="codigo_barras">Codigo de Barras </label> 
+					</div>
+					<div class="col s2">
+						<a onclick="cameraClick()" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons prefix left">camera</i></a>
+					</div>
+
+					<div class="input-field col s12">
+						<input id="produto_nome" type="text" class="validate">
+						<label for="produto_nome">Nome do Produto</label>
+					</div>
+
+					<div class="input-field col s4">
+						<input id="produto_qtd_embalagem" type="number" value="1" class="validate">
+						<label for="produto_qtd_embalagem">Qtd da embalagem</label>	
+					</div>
+					<div class="input-field col s3">
+						<input id="produto_volume" type="number" class="validade">
+						<label for="produto_volume">Volume</label>
+					</div>
+					<div class="input-field col s5">
+						<select id="produto_id_volume">
+							<option value="" disabled selected>Escolha</option>
+							<option value="1">Kg - Kilo</option>
+							<option value="2">g - Gramas</option>
+							<option value="3">Lt - Litro</option>
+							<option value="4">ml - Mililitro</option>
+							<option value="5">Dúzia</option>
+							<option value="6">Unidade</option>
+						</select>
+						<label>Unidade de Volume</label>
+					</div>	
+
+				</div>
+			</form>
+			
+		</div>
+
+		<!-- Modal de Confirmação ao apagar -->
+		<div id="ProdutosDel_Modal" class="modal">
+			<div class="modal-content">
+				<h4>Apagar Produto</h4>
+				Tem certeza que deseja apagar este produto da sua relação?'
+			</div>
+			<div class="modal-footer" id="acaoDeletarProduto">
+				<a href="#!" class="modal-action modal-close waves-effect btn-flat ">Não</a>
+				<a href="#!" onclick="delProduto();" class="waves-effect btn blue">Sim</a>
+			</div>
+		</div>
+
+
+	</div>		
+
+	<div id="conteudo-home" class="conteudo">
+
+		<blockquote>
+		Registre suas compras e acompanhe a evolução dos custos dos produtos que mais utiliza.
+		</blockquote>
+
+ 		<div class="col s6 m6 offset-m2 l3 offset-l3">
+			<div class="card-panel lighten-5 z-depth-1">
+				<a href="#1" onclick="mostrarConteudo('conteudo-lojas');">
+				<div class="row valign-wrapper">
+				<div class="col s2">
+					<!--<img src="images/yuna.jpg" alt="" class="circle responsive-img"> --><!-- notice the "circle" class -->
+				</div>
+				<div class="col s10">
+					<span class="black-text">
+					Lojas
+					</span>
+					<blockquote>
+					Registre suas preferidas e compare os produtos entre elas!!
+					</blockquote>
+				</div>
+				</div>
+				</a>
+			</div>
+		</div>
+
+		<div class="col s6 m6 offset-m2 l3 offset-l3">
+			<div class="card-panel lighten-4 z-depth-1">
+				<a href="#1" onclick="mostrarConteudo('conteudo-produtos');">
+				<div class="row valign-wrapper">
+				<div class="col s2">
+					<!--<img src="images/yuna.jpg" alt="" class="circle responsive-img"> --><!-- notice the "circle" class -->
+				</div>
+				<div class="col s10">
+					<span class="black-text">
+					Produtos
+					</span>
+					<blockquote>
+					Registre seus produtos para futuras conferencias e comparações de preços!!
+					</blockquote>
+				</div>
+				</div>
+				</a>
+			</div>
+		</div>
+
+
+		<div class="col s6 m8 offset-m2 l3 offset-l3">
+			<div class="card-panel grey lighten-5 z-depth-1">
+				<a href="#1" onclick="mostrarConteudo('conteudo-pesquisas');">
+				<div class="row valign-wrapper">
+				<div class="col s2">
+					<!-- <img src="images/yuna.jpg" alt="" class="circle responsive-img"> --> <!-- notice the "circle" class -->
+				</div>
+				<div class="col s10">
+					<span class="black-text">
+					Pesquisas
+					</span>
+					<blockquote>
+					Relação de suas pesquisas!!
+					</blockquote>
+				</div>
+				</div>
+				</a>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="conteudo-pesquisas" class="conteudo esconde">
+
+		<a class="btn" ng-click="listLojas(callLojas)">buscar Lojas</a>
+		<div id="escolhe_lojax" >
+			<form action='#' >
+			<p ng-repeat="loja in lojas">
+        		<input class='with-gap' name='group1' type='radio' id="{{loja.id}}"/>
+				<label ng-click="defineLoja(loja)" for="{{loja.id}}">"{{loja.nome}}"</label>
+        	</p>
+		</form>
+		</div>
+
+		<div id="escolhe_produto" class="esconde">
+			<form class="col s12">
+				<div class="row z-index-3">
+					<div class="input-field col s10">	
+						<input id="codigo_barras2" value="." type="text" class="">
+						<label for="codigo_barras2">Codigo de Barras </label> 
+					</div>
+					<div class="col s2">
+						<a onclick="cameraClick()" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons prefix left">camera</i></a>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div id="mostra_produto" class="esconde"> Detalhes do produto </div>
+
+		<div id="digita_valor" class="esconde"> digita o valor</div>
+
+	</div>
+
+	<div id="conteudo-config" class="conteudo esconde"> 
+		<h5>CONFIGURAÇÕES</h5><hr/>
+		<form>
+		<div class="row">
+			<a href="#!" class="btn" onclick="apagarTabelas();">apagar tabelas</a>
+		</div>
+		</form>
+
+
+		<table class="bordered">
+		<tbody>
+		<tr>
+			<td>Registrar Log ?</td>
+			<td>
+				<div class="switch" ng-click="configLog()">
+				<label>
+				Não
+				<input type="checkbox" id="log"  ng-model="log" {{log}}>
+				<span class="lever"></span>
+				Sim
+				</label>
+			</div>
+			</td>
+		</tr>
+			<tr>
+			<td>Release</td>
+			<td>
+				{{release}}
+			</td>
+		</tr>
+		</tbody>
+		</table>
+
+		
+		<table class="bordered">
+		<tbody>
+		<tr ng-repeat="x in logs">
+			<td>{{x.texto}}</td>
+		</tr>
+		</tbody>
+		</table>
+
+		
+   		
+
+		
+
+	</div>
+
+<script src="js/start.js"></script>
+
+</body>
+</html>
